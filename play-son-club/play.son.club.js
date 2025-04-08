@@ -1,5 +1,4 @@
 import axios from "axios";
-import puppeteer from "puppeteer";
 
 export class PlaySonClubSite {
   constructor() {}
@@ -73,7 +72,7 @@ export class PlaySonClubSite {
       .then((response) => {
         //case deposit rare limit
         if ((response.data.ResponseCode = -99)) {
-          return "He thong bao tri";
+          return "This account have suspended. Please login another account.";
         }
       })
       .catch((error) => {
@@ -82,9 +81,3 @@ export class PlaySonClubSite {
     return response;
   }
 }
-
-let site = new PlaySonClubSite();
-let token = await site.singIn("tienbip12345", "qweqwe123");
-let amount = 500000;
-let bankInfo = await site.getBankInfo(token, amount);
-console.log(bankInfo);

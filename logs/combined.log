@@ -1,0 +1,24 @@
+2025-04-08 15:11:39 [ERROR]: Failed to initialize database: Account number '1230077890' already exists
+2025-04-08 15:11:40 [ERROR]: Failed to initialize database: Account number '1230077890' already exists
+2025-04-08 15:11:51 [ERROR]: Failed to initialize database: Account number '1991890' already exists
+2025-04-08 15:17:48 [ERROR]: Failed to initialize database: Account number '9' already exists
+2025-04-08 15:27:26 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:29 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:31 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:32 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:36 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:37 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:43 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:47 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:47 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:27:48 [ERROR]: Failed to create bank info: account_name is not defined
+2025-04-08 15:33:25 [ERROR]: Failed to create bank info: response.json is not a function
+2025-04-08 15:53:22 [ERROR]:  null value in column "account_number" of relation "bankinfo" violates not-null constraint
+2025-04-08 15:54:09 [ERROR]:  null value in column "account_number" of relation "bankinfo" violates not-null constraint
+2025-04-08 15:54:11 [ERROR]:  null value in column "account_number" of relation "bankinfo" violates not-null constraint
+2025-04-08 16:40:55 [ERROR]: Cron job failed: condition is not defined
+2025-04-08 16:40:59 [ERROR]: Cron job failed: condition is not defined
+2025-04-08 16:55:02 [ERROR]:  null value in column "account_number" of relation "bankinfo" violates not-null constraint
+2025-04-08 16:56:02 [ERROR]:  null value in column "account_number" of relation "bankinfo" violates not-null constraint
+2025-04-08 17:01:02 [ERROR]:  null value in column "account_number" of relation "bankinfo" violates not-null constraint
+2025-04-08 17:06:01 [ERROR]:  null value in column "account_number" of relation "bankinfo" violates not-null constraint

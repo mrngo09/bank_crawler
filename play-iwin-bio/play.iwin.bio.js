@@ -91,7 +91,7 @@ export class PlayIwinBioSite {
     return password;
   }
 
-  async register() {
+  async register(proxy = null) {
     let condition = true;
     do {
       let username = this.generateVietnameseUsername();
@@ -134,7 +134,7 @@ export class PlayIwinBioSite {
       };
 
       let response = await axios
-        .post(url, data, config)
+        .post(url, data, { ...config, httpAgent: proxy })
         .then((response) => {
           if ((response.data.status = "OK" && response.data.code == 200)) {
             condition == false;
@@ -151,7 +151,7 @@ export class PlayIwinBioSite {
           ) {
             condition = false;
             console.log(
-              "Bạn đã đăng ký quá nhiều tài khoản, vui lòng thử lại sau.\n Cần đổi proxy. "
+              "Bạn đã đăng ký quá nhiều tài khoản, vui lòng thử lại sau.\nCần đổi proxy. "
             );
 
             return {
@@ -174,7 +174,7 @@ export class PlayIwinBioSite {
     } while (condition);
   }
 
-  async updateUsername(username, xtoken) {
+  async updateUsername(username, xtoken, proxy = null) {
     let url = "https://getquayaybiai.gwyqinbg.com/user/update.aspx";
     let data = JSON.stringify({
       fullname: username,
@@ -206,7 +206,7 @@ export class PlayIwinBioSite {
     };
 
     let response = await axios
-      .post(url, data, config)
+      .post(url, data, { ...config, httpAgent: proxy })
       .then((response) => {
         console.log(JSON.stringify(response.data));
       })
@@ -216,7 +216,7 @@ export class PlayIwinBioSite {
     return response;
   }
 
-  async signIn(username, password) {
+  async signIn(username, password, proxy = null) {
     let url = "https://getquayaybiai.gwyqinbg.com/user/login.aspx";
     let dataOrigin = {
       username: username,
@@ -254,7 +254,8 @@ export class PlayIwinBioSite {
     };
 
     let response = await axios
-      .post(url, data, config)
+      .post(url, data, { ...config, httpAgent: proxy })
+
       .then((response) => {
         if (response.data.data[0].session_id != null)
           console.log(`Login Successfully.`);
@@ -266,7 +267,7 @@ export class PlayIwinBioSite {
     return response;
   }
 
-  async getBankCode(token) {
+  async getBankCode(token, proxy = null) {
     let url =
       "https://baymentgwapy.gwyqinbg.com/payment/bnp?xtoken=ee19ad3888b75bd46e98bc26e7cdb86f";
     let config = {
@@ -294,7 +295,7 @@ export class PlayIwinBioSite {
     };
 
     await axios
-      .post(url, null, config)
+      .post(url, null, { ...config, httpAgent: proxy })
       .then((response) => {
         console.log(JSON.stringify(response.data.rows));
         return response.data.rows;
@@ -304,7 +305,7 @@ export class PlayIwinBioSite {
       });
   }
 
-  async deposit(token, amount = 500000, bankCode = "BIDV") {
+  async deposit(token, amount = 500000, bankCode = "BIDV", proxy = null) {
     let data = JSON.stringify({
       amount: amount,
       bank_code: bankCode,
@@ -334,7 +335,7 @@ export class PlayIwinBioSite {
     };
 
     let response = await axios
-      .post(url, data, config)
+      .post(url, data, { ...config, httpAgent: proxy })
       .then((response) => {
         if (response.data.rows) {
           let res = response.data.rows;
@@ -346,7 +347,9 @@ export class PlayIwinBioSite {
           return data;
         }
         if (response.data.code == 400) {
-          return `He thong bao tri.`;
+          return {
+            message: `This account have suspended. Please login another account.`,
+          };
         }
       })
       .catch((error) => {

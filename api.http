@@ -1,0 +1,12 @@
+###
+POST http://localhost:3000/bankinfo
+content-type: application/json
+
+{
+  "account_number": "9",
+  "account_name": "John Doe",
+  "bank_name": "Example Bank"
+}
+
+###
+GET http://localhost:3000/bankinfo HTTP/1.1

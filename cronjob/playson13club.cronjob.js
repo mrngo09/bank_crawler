@@ -4,7 +4,7 @@ const solver = new Solver("62405416d5d94b6a27b152407496d81e"); // Thay bằng AP
 import axios from "axios";
 import puppeteer from "puppeteer";
 import * as fs from "fs";
-import { getPosition } from "../automations/getPosition.js";
+import { getPosition } from "../utils/getPosition.js";
 function imageToBase64(filepath) {
   try {
     // Read the image file as binary data
@@ -77,67 +77,73 @@ const browser = await puppeteer.launch({
 });
 await browser.deleteCookie();
 const page = await browser.newPage();
+page.setGeolocation({});
 await page.setViewport({ width: 800, height: 600 });
+await page.goto("https://play.son.club/", { waitUntil: "load" });
 console.log("Starting scraping https://play.son13.club/...");
 
 // let captchaV2Url = "https://portal.taison01.com/api/account/captchav2";
 let captchaV2Url = "data:image/png;base64";
 
-page.on("response", async (response) => {
-  try {
-    const request = response.request();
-    const url = request.url();
-    // const method = request.method();
+// page.on("response", async (response) => {
+//   try {
+//     const request = response.request();
+//     const url = request.url();
+//     // const method = request.method();
 
-    if (url.includes(captchaV2Url)) {
-      const response = await axios.get(url, { responseType: "arraybuffer" });
+//     if (url.includes(captchaV2Url)) {
+//       const response = await axios.get(url, { responseType: "arraybuffer" });
 
-      // Save the image data to a file as PNG
-      fs.writeFileSync("./resources/captchav2.png", Buffer.from(response.data));
-      //   let base64Image = url.split(";base64,").pop();
-      //   console.log(base64Image);
+//       // Save the image data to a file as PNG
+//       fs.writeFileSync("./resources/captchav2.png", Buffer.from(response.data));
+//       //   let base64Image = url.split(";base64,").pop();
+//       //   console.log(base64Image);
 
-      //   const buffer = Buffer.from(base64Image, "base64");
-      //   fs.writeFileSync("./resources/captchav2.png", buffer);
-      //   fs.writeFileSync("captchav2.json", JSON.stringify(base64Image, null, 2));
-      //   await page.screenshot({
-      //     fullPage: true,
-      //     path: "./resources/captchav2.png",
-      //   });
-      await solveCaptchaFromImage("./resources/captchav2.png");
-      //   if (method === "OPTIONS") {
-      //     console.log("Skipping preflight request");
-      //     return;
-      //   }
-      // Lấy body của response
-      // //   const body = await response.buffer().catch((err) => {
-      // //     console.error(`Failed to get body for ${url}:`, err);
-      // //     return null;
-      // //   });
-      //   if (body) {
-      //     console.log("Response Body:", body.toString("utf8"));
-      //     base64Data = body.toString("utf8")[1];
-      //     //   .replace(/^data:image\/\w+;base64,/, "");
-      //     const buffer = Buffer.from(base64Data, "base64");
-      //     fs.writeFileSync("./resources/captchav2.png", buffer);
-      //     fs.writeFileSync(
-      //       "captchav2.json",
-      //       JSON.stringify(JSON.parse(body.toString("utf8")), null, 2)
-      //     );
-      //   } else {
-      //     console.log("No body available for this response");
-      //   }
-    }
-  } catch (error) {
-    console.error("Error in response handler:", error);
-  }
+//       //   const buffer = Buffer.from(base64Image, "base64");
+//       //   fs.writeFileSync("./resources/captchav2.png", buffer);
+//       //   fs.writeFileSync("captchav2.json", JSON.stringify(base64Image, null, 2));
+//       //   await page.screenshot({
+//       //     fullPage: true,
+//       //     path: "./resources/captchav2.png",
+//       //   });
+//       await solveCaptchaFromImage("./resources/captchav2.png");
+//       //   if (method === "OPTIONS") {
+//       //     console.log("Skipping preflight request");
+//       //     return;
+//       //   }
+//       // Lấy body của response
+//       // //   const body = await response.buffer().catch((err) => {
+//       // //     console.error(`Failed to get body for ${url}:`, err);
+//       // //     return null;
+//       // //   });
+//       //   if (body) {
+//       //     console.log("Response Body:", body.toString("utf8"));
+//       //     base64Data = body.toString("utf8")[1];
+//       //     //   .replace(/^data:image\/\w+;base64,/, "");
+//       //     const buffer = Buffer.from(base64Data, "base64");
+//       //     fs.writeFileSync("./resources/captchav2.png", buffer);
+//       //     fs.writeFileSync(
+//       //       "captchav2.json",
+//       //       JSON.stringify(JSON.parse(body.toString("utf8")), null, 2)
+//       //     );
+//       //   } else {
+//       //     console.log("No body available for this response");
+//       //   }
+//     }
+//   } catch (error) {
+//     console.error("Error in response handler:", error);
+//   }
 
-  // // console.log(base64Data);
-});
+//   // // console.log(base64Data);
+// });
 
-await page.goto("https://play.son.club/", { waitUntil: "networkidle0" });
-await page.mouse.click(400, 560, { button: "left" }); // Di chuyển chuột đến tọa độ popup form đăng ký
-await getPosition(page);
+await page.mouse.click(400, 560, { button: "left" }); // Di chuyển chuột đến tọa độ popup form đăng ký(Register form)
+await page.mouse.click(370, 230, { button: "left" }); // Di chuyển chuột đến tọa độ popup form đăng ký(username)
+await page.mouse.click(370, 270, { button: "left" }); // Di chuyển chuột đến tọa độ popup form đăng ký(psw)
+await page.mouse.click(370, 320, { button: "left" }); // Di chuyển chuột đến tọa độ popup form đăng ký(re-psw)
+await page.mouse.click(370, 370, { button: "left" }); // Di chuyển chuột đến tọa độ popup form đăng ký(captcha code)
+await page.mouse.click(370, 410, { button: "left" }); // Di chuyển chuột đến tọa độ popup form đăng ký(btn confirm)
+// await getPosition(page);
 // await page.mouse.click(520, 570, { button: "left" }); // Di chuyển chuột đến tọa độ mở popup login
 // await page.mouse.click(500, 250, { button: "left" }); // Di chuyển chuột đến tọa độ input username
 // await page.keyboard.type("admin123");
